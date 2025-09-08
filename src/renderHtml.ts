@@ -1,4 +1,14 @@
+function escapeHtml(untrusted: string): string {
+  return untrusted
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export function renderHtml(content: string) {
+  const safeContent = escapeHtml(content);
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -18,9 +28,9 @@ export function renderHtml(content: string) {
         </header>
         <main>
           <p>Your D1 Database contains the following data:</p>
-          <pre><code><span style="color: #0E838F">&gt; </span>SELECT * FROM comments LIMIT 3;<br>${content}</code></pre>
+          <pre><code><span style="color: #0E838F">&gt; </span>SELECT * FROM comments LIMIT 3;<br>${safeContent}</code></pre>
           <small class="blue">
-            <a target="_blank" href="https://developers.cloudflare.com/d1/tutorials/build-a-comments-api/">Build a comments API with Workers and D1</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://developers.cloudflare.com/d1/tutorials/build-a-comments-api/">Build a comments API with Workers and D1</a>
           </small>
         </main>
       </body>
